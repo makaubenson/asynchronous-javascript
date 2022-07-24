@@ -34,3 +34,6 @@
 
 - AJAX (X Stands for XML)
 - People dont use `XML` anymore, `JSON` has become the most popular API format today.
+
+- Without `CORS` being set to `yes` or `unknown` we cant access a public api from our code.
+  `CORS` stands for Cross Origin Resource Sharing.
