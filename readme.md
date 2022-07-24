@@ -118,3 +118,56 @@ getCountryAndNeighbor('usa');
 
 - It makes code hard to maintain and reason about.
 - Has posibility of many bugs.
+
+## How to Avoid Callback Hell
+
+### Promises
+
+- A `promise` is an `object` that is used as a placeholder for the future result of an asynchronous operation.
+- We can also say its a container for an asynchronous delivered value.
+- Or a container for a future value.(future value example: response coming from ajax call)
+
+#### Why Use Promises
+
+- We no longer need to rely on events and callbacks passed into asynchronous functions to handle asynchronous results.
+- We can chain promises for a sequence of asynchronous operations thus `escaping callback hell`.
+
+#### The Promise Lifecycle
+
+- `Pending` - Before the future value is available. During this state, the asynchronous task is still running in the background.
+- `Settled` - when the task finally finishes. There are 2 types of settled promises: `fulfilled` and `rejected`. `Fulfilled` is when the task results to a value, or operation is a success and data available for use, while `rejected` states that there has been an error during the `asynchronous task`. Promise is only settled once, the state then remains that way forever, it is impossible to change that state. These states are uselful when we use a promise to get a result, which is called `consuming a promise.`. We consume a promise when we already have a promise. For promise to exist it must be created.`Fetch()` function builds the promise and gives it back to us to consume.
+
+### consuming promises
+
+```
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(function (response) {
+      console.log(response);
+      //reading data from the body property (call JSON property)
+
+      return response.json(); //returns new promise
+    }) // handling the promise created by response.json()
+    .then(function (data) {
+      console.log(data);
+    });
+};
+getCountryData('Kenya');
+```
+
+getCountryData('Kenya');
+
+- `fetch(`https://restcountries.com/v3.1/name/${country}`)` Returns a promise.
+- `then(function ( response ) { console.log(response); });` is then used to handle the `fulfilled promise`.
+- `response.json(); ` - returns new promise and thus we need to handle the promise too.
+
+###### Simplified:Using arrow functions
+
+```
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+getCountryData('Kenya');
+```
