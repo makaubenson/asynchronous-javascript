@@ -171,3 +171,5 @@ const getCountryData = function (country) {
 };
 getCountryData('Kenya');
 ```
+
+- `then()` returns a promise no matter if we return anything or not. If we return a value it becomes the fulfillment value of the returned promise.
