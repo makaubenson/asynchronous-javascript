@@ -20,7 +20,7 @@
 
 ### How AJAX works
 
-![ajaximg]
+![Ajax Calls](https://user-images.githubusercontent.com/59168713/180642274-56762acf-a71d-4c22-9284-f3778c9e7fc9.png)
 
 ## API (APPLICATION PROGRAMMING INTERFACE)
 
@@ -62,3 +62,9 @@ request.addEventListener('load', function () {
 ## How the Web Works: Requests and Responses
 
 - When we make a request to the web server, we get response with the data requested(whether an entire web page or data from an api)- This process is called `Request-Response Model` or `Client-Server Architecture`.
+
+
+![how-web-works](https://user-images.githubusercontent.com/59168713/180642293-d126dc99-544c-4c67-b63f-92658cd6db15.png)
+
+
+
