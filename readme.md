@@ -63,8 +63,58 @@ request.addEventListener('load', function () {
 
 - When we make a request to the web server, we get response with the data requested(whether an entire web page or data from an api)- This process is called `Request-Response Model` or `Client-Server Architecture`.
 
-
 ![how-web-works](https://user-images.githubusercontent.com/59168713/180642293-d126dc99-544c-4c67-b63f-92658cd6db15.png)
 
+### CALLBACK HELL
 
+- Having alot of nested callbacks to execute asynchronous code.
+- Look at the example below.
 
+```
+const getCountryAndNeighbor = function (country) {
+  //Old School way of making Ajax Call: country 1
+  const request = new XMLHttpRequest();
+  //Open Request
+  request.open('GET', `https://restcountries.com/v3.1/name/${country}`); //needs 2 arguments 1:TYPE OF REQUEST(GET, POST,DELETE, PUT) 2: url we are making request to(endpoint)
+  //Send Request
+  request.send(); //this will send the request to the endpoint
+  //The request fetchedata to be received)
+
+  request.addEventListener('load', function () {
+    //   console.log(this.responseText);
+
+    //convert data to js object from JSON
+    const [data] = JSON.parse(this.responseText);
+    console.log(data);
+    //render country 1
+    renderCountry(data);
+
+    //get Neighbor Country : country 2
+    const neighbor = data.borders[0];
+
+    if (!neighbor) return; // Guard Clause
+
+    //second Ajax Call : 2
+    const request2 = new XMLHttpRequest();
+    //Open Request
+    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbor}`);
+    //Send Request
+    request2.send();
+
+    request2.addEventListener('load', function () {
+      //   console.log(this.responseText);
+
+      const [data2] = JSON.parse(this.responseText);
+      console.log(data2);
+
+      renderCountry(data2, 'neighbour');
+    });
+  });
+};
+
+// getCountryAndNeighbor('Kenya');
+getCountryAndNeighbor('usa');
+```
+
+- It makes code hard to maintain and reason about.
+- Has posibility of many bugs.
