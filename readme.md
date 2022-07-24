@@ -206,3 +206,41 @@ btn.addEventListener('click', function () {
   getCountryData('usa');
 });
 ```
+
+#### Method 2: handling errors globally
+
+```
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
+const getCountryData = function (country) {
+  //country 1
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => response.json())
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+
+      if (!neighbour) return;
+
+      //country 2
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {
+      //will catch any error occuring in the promise chain
+      console.error(`${err} !!!! `);
+      renderError(`Something Went Wrong!!!!!! ${err.message} Try Again!?!`);
+    })
+    .finally(() => {
+      //this callback will be called whether promise is fulfilled or rejected
+      //used to executed something that needs to be executed no matter the result of the promise execution
+      //works promises.
+      countriesContainer.style.opacity = 1;
+    });
+};
+```
+
+- `fetch() promise` only rejects when there is no internet connection.
