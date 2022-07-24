@@ -58,3 +58,7 @@ request.addEventListener('load', function () {
   console.log(data);
 });
 ```
+
+## How the Web Works: Requests and Responses
+
+- When we make a request to the web server, we get response with the data requested(whether an entire web page or data from an api)- This process is called `Request-Response Model` or `Client-Server Architecture`.
