@@ -173,3 +173,36 @@ getCountryData('Kenya');
 ```
 
 - `then()` returns a promise no matter if we return anything or not. If we return a value it becomes the fulfillment value of the returned promise.
+
+### error handling in promises
+
+#### Method 1:adding second callback function on the then() method
+
+```
+const getCountryData = function (country) {
+  //country 1
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(
+      response => response.json(),
+      err => alert(err) //error handling/catching
+    )
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+
+      if (!neighbour) return;
+
+      //country 2
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(
+      response => response.json(),
+      err => alert(err)
+    )
+    .then(data => renderCountry(data[0], 'neighbour'));
+};
+
+btn.addEventListener('click', function () {
+  getCountryData('usa');
+});
+```

@@ -132,6 +132,54 @@ const renderCountry = function (data, className = '') {
 // getCountryData('Kenya');
 
 //Chaining Promises
+// const getCountryData = function (country) {
+//   //country 1
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(response => response.json())
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders[0];
+
+//       if (!neighbour) return;
+
+//       //country 2
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     .then(response => response.json())
+//     .then(data => renderCountry(data[0], 'neighbour'));
+// };
+// getCountryData('usa');
+
+//Handling Errors in Rejected Promises
+//method 1: adding second callback function on the then() method
+// const getCountryData = function (country) {
+//   //country 1
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then(
+//       response => response.json(),
+//       err => alert(err) //error handling/catching
+//     )
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders[0];
+
+//       if (!neighbour) return;
+
+//       //country 2
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     .then(
+//       response => response.json(),
+//       err => alert(err)
+//     )
+//     .then(data => renderCountry(data[0], 'neighbour'));
+// };
+
+// btn.addEventListener('click', function () {
+//   getCountryData('usa');
+// });
+
+//method 2 : handling errors globally
 const getCountryData = function (country) {
   //country 1
   fetch(`https://restcountries.com/v3.1/name/${country}`)
@@ -148,4 +196,7 @@ const getCountryData = function (country) {
     .then(response => response.json())
     .then(data => renderCountry(data[0], 'neighbour'));
 };
-getCountryData('kenya');
+
+btn.addEventListener('click', function () {
+  getCountryData('usa');
+});
