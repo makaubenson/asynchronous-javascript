@@ -384,3 +384,6 @@ wait(2)
     return wait(1);
   })
   .then(() => console.log('I waited for 1 sec'));
+
+//creating fulfilled promises immediately
+Promise.resolve('This is resolved').then(() => console.log('x'));
