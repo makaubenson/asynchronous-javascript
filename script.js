@@ -389,5 +389,5 @@ wait(2)
 Promise.resolve('This is resolved').then(() => console.log('x'));
 
 //creating rejected promises immediately
-// Promise.reject('This is rejected').catch(x => console.error(x));
-Promise.reject(new Error('REJECTED')).catch(x => console.error(x));
+// Promise.reject('This is rejected').catch(x => console.error(x));//script.js:392 This is rejected
+Promise.reject(new Error('REJECTED')).catch(x => console.error(x)); //REJECTED
