@@ -354,40 +354,55 @@ whereAmI(-33.933, 18.474);
 // script.js:342 O sec timer
 
 //Building A Promise : Simulate with lottery example: Fulfilled promise means to win the lottery while a rejected promise means to lose the lottery.
-const lotteryPromise = new Promise(function (resolve, reject) {
-  console.log('LOTTERY DRAW IS HAPPENING');
-  setTimeout(function () {
-    if (Math.random() >= 0.5) {
-      resolve('YOU WIN'); //marks this promise as fulfilled promise.
-    } else {
-      reject(new Error('You Lost your money'));
-    }
-  }, 2000);
-});
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('LOTTERY DRAW IS HAPPENING');
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve('YOU WIN'); //marks this promise as fulfilled promise.
+//     } else {
+//       reject(new Error('You Lost your money'));
+//     }
+//   }, 2000);
+// });
 
 //consuming the created promise
-lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
 
 // Promisification
 
 //promisifying setTimeout()
-const wait = function (seconds) {
-  return new Promise(function (resolve, reject) {
-    setTimeout(resolve, seconds * 1000);
-  });
-};
+// const wait = function (seconds) {
+//   return new Promise(function (resolve, reject) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
 
 //consume promise
-wait(2)
-  .then(function () {
-    console.log('I waited for 2 seconds');
-    return wait(1);
-  })
-  .then(() => console.log('I waited for 1 sec'));
+// wait(2)
+//   .then(function () {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited for 1 sec'));
 
 //creating fulfilled promises immediately
-Promise.resolve('This is resolved').then(() => console.log('x'));
+// Promise.resolve('This is resolved').then(() => console.log('x'));
 
 //creating rejected promises immediately
 // Promise.reject('This is rejected').catch(x => console.error(x));//script.js:392 This is rejected
-Promise.reject(new Error('REJECTED')).catch(x => console.error(x)); //REJECTED
+// Promise.reject(new Error('REJECTED')).catch(x => console.error(x)); //REJECTED
+
+//Promisifying the Geolocation API
+
+//convert callback based API to a promise based API
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+getPosition().then(pos => console.log(pos));

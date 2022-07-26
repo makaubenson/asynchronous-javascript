@@ -334,3 +334,20 @@ Promise.resolve('This is resolved').then(() => console.log('x'));
 Promise.reject('This is rejected').catch(x => console.error(x)); //script.js:392 This is rejected
 Promise.reject(new Error('REJECTED')).catch(x => console.error(x));//REJECTED
 ```
+
+### Promisifying the Geolocation API
+
+```
+//convert callback based API to a promise based API
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+getPosition().then(pos => console.log(pos));
+```
