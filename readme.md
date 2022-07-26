@@ -244,3 +244,31 @@ const getCountryData = function (country) {
 ```
 
 - `fetch() promise` only rejects when there is no internet connection.
+
+## Asynchronous Behind Scenes: The Event Loop
+
+- Event Loop checks in the callstack and determibne if its is empty or not, if empty(no code being executed), it takes first call back from the callback queue and puts it in the call stack for execution.
+
+## Creating Promises/Building A Promise
+
+```
+const lotteryPromise = new Promise(function (resolve, reject) {
+  if (Math.random() >= 0.5) {
+    resolve('YOU WIN'); //marks this promise as fulfilled promise.
+  } else {
+    reject('You Lost your money');
+  }
+});
+```
+
+- `new Promise()` the promise constructor used to create new promise. It takes one argument (executor function)
+- The executor function is what contains the asynchronous behavior that we are trying to handle with the promise.
+- When the promise is run, it does so by calling the `executor function` which in return parses 2 functions in it `resolve` and `reject` functions.
+- In the ` resolve()` function we pass the fulfilled value which will then be accessed with the `then()` method.
+- In the `reject()` method we pass the error message that could later be caught by the `catch()` method.
+
+#### We need to ensure that a promise always ends up in fulfilled or rejected states.
+
+## Consuming the created promise above.
+
+`lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));`

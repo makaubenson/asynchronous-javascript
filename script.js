@@ -178,7 +178,7 @@ const renderCountry = function (data, className = '') {
 // btn.addEventListener('click', function () {
 //   getCountryData('usa');
 // });
-
+/*
 //method 2 : handling errors globally
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
@@ -192,7 +192,7 @@ const getJSON = function (url, errorMsg = 'Something went Wrong') {
     return response.json();
   });
 };
-
+*/
 // const getCountryData = function (country) {
 //   //country 1
 //   fetch(`https://restcountries.com/v3.1/name/${country}`)
@@ -293,6 +293,7 @@ TEST COORDINATES 2: -33.933, 18.474
 
 GOOD LUCK 😀
 */
+/*
 const renderCountry = function (data, className = '') {
   const html = `
       <article class="country ${className}">
@@ -335,3 +336,31 @@ const whereAmI = function (lat, lng) {
 whereAmI(52.508, 13.381);
 whereAmI(19.037, 72.873);
 whereAmI(-33.933, 18.474);
+*/
+
+// console.log('Test Start');
+// setTimeout(() => console.log('O sec timer'), 0);
+
+// Promise.resolve('Resolved Promise 1').then(res => console.log(res));
+
+// Promise.resolve('Resolved Promise 2').then(res => {
+//   for (let i = 0; i < 1000000; i++) {}
+// });
+// console.log('Test End');
+
+// Test Start
+// script.js:345 Test End
+// script.js:344 Resolved Promise 1
+// script.js:342 O sec timer
+
+//Building A Promise : Simulate with lottery example: Fulfilled promise means to win the lottery while a rejected promise means to lose the lottery.
+const lotteryPromise = new Promise(function (resolve, reject) {
+  if (Math.random() >= 0.5) {
+    resolve('YOU WIN'); //marks this promise as fulfilled promise.
+  } else {
+    reject('You Lost your money');
+  }
+});
+
+//consuming the created promise
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
