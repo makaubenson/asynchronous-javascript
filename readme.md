@@ -467,7 +467,9 @@ try {
 
 ## Running Promises in Parallel
 
-### Promise.all()
+### Combinator Functions
+
+#### Promise.all()
 
 - The Promise.all() method takes an iterable of promises as an input, and returns a single Promise that resolves to an array of the results of the input promises.
 - This returned promise will fulfill when all of the input's promises have fulfilled, or if the input iterable contains no promises.
@@ -496,4 +498,22 @@ const get3Countries = async function (c1, c2, c3) {
 };
 
 get3Countries('usa', 'canada', 'kenya');
+```
+
+#### Promise.race()
+
+- Receives array of promises and returns a promise.
+- The Promise.race() method returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+- The promise returned by Promise.race() settles as soon as on of the array of promises settles. The promise that settles first wins the race, whether fulfilling or rejecting.
+- Promise.race() short circuits whenever one of the promises settles.
+
+```
+(async function () {
+  const res = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/italy`),
+    getJSON(`https://restcountries.com/v3.1/name/egypt`),
+    getJSON(`https://restcountries.com/v3.1/name/mexico`),
+  ]);
+  console.log(res[0]);
+})();
 ```
