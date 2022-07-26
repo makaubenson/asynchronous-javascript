@@ -244,3 +244,12 @@ const getCountryData = function (country) {
 ```
 
 - `fetch() promise` only rejects when there is no internet connection.
+
+![how-web-works](https://user-images.githubusercontent.com/59168713/180935802-a2442c94-a6d0-44b9-8ede-c410cc269368.png)
+
+![eventloop](https://user-images.githubusercontent.com/59168713/180935978-47e9f0ce-7557-45f8-9f77-45dbbc62bb6d.png)
+
+![eventloop2](https://user-images.githubusercontent.com/59168713/180935997-122464a2-5533-457c-a0f4-3c3ac61e53dd.png)
+
+
+
