@@ -17,6 +17,10 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
 ///////////////////////////////////////
 // const getCountryData = function (country) {
 //   //Old School way of making Ajax Call
@@ -556,32 +560,40 @@ const getPosition = function () {
   });
 };
 const whereAmI = async function () {
-  //geo location
-  const pos = await getPosition();
-  console.log(pos);
-  const { latitude: lat, longitude: lng } = pos.coords;
+  try {
+    //geo location
+    const pos = await getPosition();
+    console.log(pos);
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-  //reverse geocoding
-  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-  const dataGeo = await resGeo.json();
-  console.log(dataGeo);
-  //we can have one or more await statements inside the async function
-  //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
-  //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
-  // const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
-  // console.log(res);
+    //reverse geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+    const dataGeo = await resGeo.json();
+    console.log(dataGeo);
+    //we can have one or more await statements inside the async function
+    //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
+    //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
+    // const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+    // console.log(res);
 
-  //country data
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${dataGeo.country}`
-  );
-  console.log(res);
-  const data = await res.json();
-  console.log(data);
-  renderCountry(data[0]);
+    //country data
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.country}`
+    );
+    if (!res.ok) throw new Error('Problem getting country data');
+    console.log(res);
+    const data = await res.json();
+    console.log(data);
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(err);
+    renderError(`Error: ${err.message}`);
+  }
 };
 
 whereAmI();
+
 console.log('FIRST');
 
 // let y = 1;
