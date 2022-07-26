@@ -419,9 +419,17 @@ const whereAmI = function(country){
 - when the function is done executing, it returns a promise.
 
 ```
-const whereAmI = async function(country){
+const whereAmI = async function (country) {
+  //we can have one or more await statements inside the async function
+  //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
+  //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
 
-}
+  const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+  console.log(res);
+};
+
+whereAmI('kenya');
+console.log('FIRST');
 ```
 
 - we can have one or more await statements inside the async function
