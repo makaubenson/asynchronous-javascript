@@ -245,6 +245,7 @@ const getCountryData = function (country) {
 
 - `fetch() promise` only rejects when there is no internet connection.
 
+<<<<<<< HEAD
 ## Asynchronous Behind Scenes: The Event Loop
 
 - Event Loop checks in the callstack and determibne if its is empty or not, if empty(no code being executed), it takes first call back from the callback queue and puts it in the call stack for execution.
@@ -433,3 +434,13 @@ console.log('FIRST');
 ```
 
 - we can have one or more await statements inside the async function
+=======
+![how-web-works](https://user-images.githubusercontent.com/59168713/180935802-a2442c94-a6d0-44b9-8ede-c410cc269368.png)
+
+![eventloop](https://user-images.githubusercontent.com/59168713/180935978-47e9f0ce-7557-45f8-9f77-45dbbc62bb6d.png)
+
+![eventloop2](https://user-images.githubusercontent.com/59168713/180935997-122464a2-5533-457c-a0f4-3c3ac61e53dd.png)
+
+
+
+>>>>>>> 49a93e00e84dbd541b484590162af30d66d213d5
