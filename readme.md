@@ -272,3 +272,52 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 ## Consuming the created promise above.
 
 `lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));`
+
+- The example above is not yet asynchronous.
+
+## Lets introduce a bit of asynchronous behaviour.
+
+```
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('LOTTERY DRAW IS HAPPENING');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('YOU WIN'); //marks this promise as fulfilled promise.
+    } else {
+      reject(new Error('You Lost your money'));
+    }
+  }, 2000);
+});
+```
+
+## consuming the created promise
+
+```
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+```
+
+## Promisification
+
+- “Promisification” is a long word for a simple transformation. It’s the conversion of a function that accepts a callback into a function that returns a promise.
+- Such transformations are often required in real-life, as many functions and libraries are callback-based. But promises are more convenient, so it makes sense to promisify them.
+
+### promisifying setTimeout()
+
+```
+const wait = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+```
+
+### consume the created promise above
+
+```
+wait(2)
+.then(function () {
+console.log('I waited for 2 seconds');
+return wait(1);
+})
+.then(() => console.log('I waited for 1 sec'));
+```

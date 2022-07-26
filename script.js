@@ -355,12 +355,32 @@ whereAmI(-33.933, 18.474);
 
 //Building A Promise : Simulate with lottery example: Fulfilled promise means to win the lottery while a rejected promise means to lose the lottery.
 const lotteryPromise = new Promise(function (resolve, reject) {
-  if (Math.random() >= 0.5) {
-    resolve('YOU WIN'); //marks this promise as fulfilled promise.
-  } else {
-    reject('You Lost your money');
-  }
+  console.log('LOTTERY DRAW IS HAPPENING');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('YOU WIN'); //marks this promise as fulfilled promise.
+    } else {
+      reject(new Error('You Lost your money'));
+    }
+  }, 2000);
 });
 
 //consuming the created promise
 lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+// Promisification
+
+//promisifying setTimeout()
+const wait = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+//consume promise
+wait(2)
+  .then(function () {
+    console.log('I waited for 2 seconds');
+    return wait(1);
+  })
+  .then(() => console.log('I waited for 1 sec'));
