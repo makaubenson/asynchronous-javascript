@@ -2,7 +2,21 @@
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
+const renderCountry = function (data, className = '') {
+  const html = `
+    <article class="country ${className}">
+    <img class="country__img" src="${data.flags.png}" />
+    <div class="country__data">
+      <h3 class="country__name">${data.name.common}</h3>
+      <h4 class="country__region">${data.region}</h4>
+      <p class="country__row"><span>👫</span>${data.population}</p>
+      <p class="country__row"><span>🗣️</span>${data.languages.eng}</p>
 
+    </div>
+  </article>`;
+  countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
+};
 ///////////////////////////////////////
 // const getCountryData = function (country) {
 //   //Old School way of making Ajax Call
@@ -530,13 +544,42 @@ createImage('img/img-1.jpg')
 */
 
 //consuming promises with ASYNC/ AWAIT
-const whereAmI = async function (country) {
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+const whereAmI = async function () {
+  //geo location
+  const pos = await getPosition();
+  console.log(pos);
+  const { latitude: lat, longitude: lng } = pos.coords;
+
+  //reverse geocoding
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+  const dataGeo = await resGeo.json();
+  console.log(dataGeo);
   //we can have one or more await statements inside the async function
   //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
   //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
-  const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+  // const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+  // console.log(res);
+
+  //country data
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${dataGeo.country}`
+  );
   console.log(res);
+  const data = await res.json();
+  console.log(data);
+  renderCountry(data[0]);
 };
 
-whereAmI('kenya');
+whereAmI();
 console.log('FIRST');
