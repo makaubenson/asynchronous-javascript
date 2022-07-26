@@ -583,3 +583,16 @@ const whereAmI = async function () {
 
 whereAmI();
 console.log('FIRST');
+
+// let y = 1;
+// const x = 2;
+// // x = 3; //script.js:589 Uncaught TypeError: Assignment to constant variable.
+
+// //handle the errors using try catch
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
