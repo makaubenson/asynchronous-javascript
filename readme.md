@@ -460,3 +460,40 @@ try {
   alert(err.message);
 }
 ```
+
+## Note:
+
+- The value that is returned by the `async` function will become the fulfilled value of the promise returned by the function.
+
+## Running Promises in Parallel
+
+### Promise.all()
+
+- The Promise.all() method takes an iterable of promises as an input, and returns a single Promise that resolves to an array of the results of the input promises.
+- This returned promise will fulfill when all of the input's promises have fulfilled, or if the input iterable contains no promises.
+- It rejects immediately upon any of the input promises rejecting or non-promises throwing an error, and will reject with this first rejection message / error.
+
+- If one promise in the Promise.all method rejects, the whole Promise.all rejects.
+
+```
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    // const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+    // const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+    // const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+    // console.log(data1.capital, data2.capital, data3.capital);
+    //to run the above ajax calls in parrale use, Promise.all()
+
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+get3Countries('usa', 'canada', 'kenya');
+```

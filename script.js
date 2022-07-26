@@ -21,6 +21,14 @@ const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
   countriesContainer.style.opacity = 1;
 };
+const getJSON = function (url, errorMsg = 'Something went Wrong') {
+  return fetch(url).then(response => {
+    // console.log(response);
+    if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+
+    return response.json();
+  });
+};
 ///////////////////////////////////////
 // const getCountryData = function (country) {
 //   //Old School way of making Ajax Call
@@ -549,62 +557,91 @@ createImage('img/img-1.jpg')
 
 //consuming promises with ASYNC/ AWAIT
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    // navigator.geolocation.getCurrentPosition(
-    //   position => resolve(position),
-    //   err => reject(err)
-    // );
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(err)
+//     // );
 
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
-const whereAmI = async function () {
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+// const whereAmI = async function () {
+//   try {
+//     //geo location
+//     const pos = await getPosition();
+//     // console.log(pos);
+//     const { latitude: lat, longitude: lng } = pos.coords;
+
+//     //reverse geocoding
+//     const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+//     if (!resGeo.ok) throw new Error('Problem getting location data');
+//     const dataGeo = await resGeo.json();
+//     // console.log(dataGeo);
+//     //we can have one or more await statements inside the async function
+//     //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
+//     //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
+//     // const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+//     // console.log(res);
+
+//     //country data
+//     const res = await fetch(
+//       `https://restcountries.com/v3.1/name/${dataGeo.country}`
+//     );
+//     if (!res.ok) throw new Error('Problem getting country data');
+//     // console.log(res);
+//     const data = await res.json();
+//     // console.log(data);
+//     renderCountry(data[0]);
+
+//     return `2:You are in ${dataGeo.city}, ${dataGeo.country}`;
+//   } catch (err) {
+//     // console.error(err);
+//     renderError(`2:Error: ${err.message}`);
+
+//     //reject promise returned from async function
+//     throw err;
+//   }
+// };
+
+// whereAmI();
+
+// console.log('1: Will Get Location');
+// const city = whereAmI();
+// console.log(city);
+// city
+//   .then(res => console.log(res))
+//   .finally(() => console.log(`3: Finished getting the location`));
+
+// (async function () {
+//   try {
+//     const city = await whereAmI();
+//     console.log(city);
+//   } catch (err) {
+//     console.error(`2: ${err.message}`);
+//   }
+//   console.log(`3: Finished getting the location`);
+// })();
+
+//running promises in parallel
+const get3Countries = async function (c1, c2, c3) {
   try {
-    //geo location
-    const pos = await getPosition();
-    console.log(pos);
-    const { latitude: lat, longitude: lng } = pos.coords;
+    // const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`);
+    // const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`);
+    // const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
+    // console.log(data1.capital, data2.capital, data3.capital);
+    //to run the above ajax calls in parrale use, Promise.all()
 
-    //reverse geocoding
-    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-    if (!resGeo.ok) throw new Error('Problem getting location data');
-    const dataGeo = await resGeo.json();
-    console.log(dataGeo);
-    //we can have one or more await statements inside the async function
-    //await will stop the execution as from the point it is declared it the promise (fetch call) is fulfilled
-    //the result of the await statement below will be resolved value of the promise, thus it can be stored in a variable
-    // const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
-    // console.log(res);
-
-    //country data
-    const res = await fetch(
-      `https://restcountries.com/v3.1/name/${dataGeo.country}`
-    );
-    if (!res.ok) throw new Error('Problem getting country data');
-    console.log(res);
-    const data = await res.json();
-    console.log(data);
-    renderCountry(data[0]);
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data.map(d => d[0].capital));
   } catch (err) {
-    console.error(err);
-    renderError(`Error: ${err.message}`);
+    console.log(err);
   }
 };
 
-whereAmI();
-
-console.log('FIRST');
-
-// let y = 1;
-// const x = 2;
-// // x = 3; //script.js:589 Uncaught TypeError: Assignment to constant variable.
-
-// //handle the errors using try catch
-// try {
-//   let y = 1;
-//   const x = 2;
-//   x = 3;
-// } catch (err) {
-//   alert(err.message);
-// }
+get3Countries('usa', 'canada', 'kenya');
