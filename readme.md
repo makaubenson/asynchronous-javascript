@@ -545,6 +545,8 @@ Promise.race([
 - It returns all resulst for all promises.
 - It doesnt short circuit
 
+#### Code below doesnt short circuit(returns results for all 3 promises)
+
 ```
 Promise.allSettled([
   Promise.resolve('Success'),
@@ -552,3 +554,17 @@ Promise.allSettled([
   Promise.resolve('Another Success'),
 ]).then(res => console.log(res));
 ```
+
+#### code below short circuits when one promise is rejected
+
+```
+Promise.all([
+  Promise.resolve('Success'),
+  Promise.reject('Error'),
+  Promise.resolve('Another Success'),
+])
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+```
+
+## Promise.any()
