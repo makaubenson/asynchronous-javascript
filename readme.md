@@ -321,3 +321,16 @@ return wait(1);
 })
 .then(() => console.log('I waited for 1 sec'));
 ```
+
+### creating fulfilled promises immediately
+
+```
+Promise.resolve('This is resolved').then(() => console.log('x'));
+```
+
+### creating rejected promises immediately
+
+```
+Promise.reject('This is rejected').catch(x => console.error(x));
+Promise.reject(new Error('REJECTED')).catch(x => console.error(x));
+```
