@@ -404,3 +404,24 @@ const whereAmI = function () {
 
 btn.addEventListener('click', whereAmI);
 ```
+
+## consuming promises with ASYNC/ AWAIT
+
+- Creating a normal function
+
+```
+const whereAmI = function(country){
+
+}
+```
+
+- Creating an asynchronous function - function that will keep running in the background
+- when the function is done executing, it returns a promise.
+
+```
+const whereAmI = async function(country){
+
+}
+```
+
+- we can have one or more await statements inside the async function
