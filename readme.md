@@ -584,3 +584,4 @@ Promise.any([
 - Returns first fullfilled promise, it ignores the rejected promises.
 
 - The most important `Promise.all()` and `Promise.race()`.
+- Promise.all() and Promise.race() are most recent functions implemented in ES6.
